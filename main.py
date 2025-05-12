@@ -1,4 +1,6 @@
-from proboAPI.buyBook import api_buyBook
-from LLM.geminiAPI import geminiAPI
+from proboAPI.eventInfo import api_eventInfo
+from utils.extractInfoQuestion import extractInfoQuestion
+from ytAPI.getViews import get_video_views
 
-print (geminiAPI("Hey"))
+question = api_eventInfo(4030500)
+print( extractInfoQuestion(question) )
