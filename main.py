@@ -1,3 +1,4 @@
 from proboAPI.buyBook import api_buyBook
+from LLM.geminiAPI import geminiAPI
 
-print (api_buyBook())
+print (geminiAPI("Hey"))
