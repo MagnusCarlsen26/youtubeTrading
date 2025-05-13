@@ -1,0 +1,4 @@
+1. Only use camel case.
+2. your code should me very modular.
+3. One function should do only one task.
+4. absract utility code in a seperate function and put that function in a new file inside utils dir. name file and function should be the same.
