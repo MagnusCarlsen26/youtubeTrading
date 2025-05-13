@@ -34,7 +34,12 @@ def extractInfoQuestion( question : str ) -> dict  :
         response_data = json.loads( json_string )
         response_data["videoId"] = search_top_video( response_data["videoTitle"] )
 
-        return response_data
+        return (
+            response_data["targetViews"],
+            response_data["targetTime"],
+            response_data["videoId"],
+            response_data["videoTitle"]
+        )
 
     except JSONDecodeError :
 
