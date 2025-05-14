@@ -8,13 +8,13 @@ load_dotenv()
 assert os.environ.get("PROBO_BEARER_TOKEN"), "Please enter Auth Token"
 AUTH_TOKEN = os.environ.get("PROBO_BEARER_TOKEN")
 
-def sendAPIRequest( url : str, method : Literal["GET","POST","PUT"], headers={} ) :
+def sendAPIRequest( url : str, method : Literal["GET","POST","PUT"], headers={}, payload: dict | None = None ) :
 
     headers["authorization"] = AUTH_TOKEN
 
     if method == "GET" : response = requests.get( url=url, headers=headers )
-    elif method == "POST" : response = requests.post( url=url, headers=headers )
-    elif method == "PUT" : response = requests.put( url=url, headers=headers )
+    elif method == "POST" : response = requests.post( url=url, headers=headers, json=payload )
+    elif method == "PUT" : response = requests.put( url=url, headers=headers, json=payload )
 
     if response.status_code != 200 : 
         raise Exception( f"Error from Probo : {response.json()["message"]}" ) 
