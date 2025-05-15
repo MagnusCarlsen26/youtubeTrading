@@ -6,3 +6,7 @@ API_URLS = {
     "buyEvent" : f"{PROBO_API_URL}/v1/oms/order/initiate",
     "getAllEvents" : f"{PROBO_API_URL}/v1/product/arena/events/v2"
 }
+
+TOPIC_IDS = {
+    "youtube" : 452
+}
