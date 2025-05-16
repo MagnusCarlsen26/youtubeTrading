@@ -1,23 +1,31 @@
-from proboAPI.eventInfo import api_eventInfo
-from proboAPI.buyEvent import api_buyEvent
+from proboAPI.getAllEvents import api_getAllEvents
 
-from utils.extractInfoQuestion import extractInfoQuestion
-from utils.args_parser import parse_trading_args
+from constants import TOPIC_IDS
 
-from strategy.lastMinuteBuyStrat import lastMinuteBuyStrat
+from collectEventData import collectEventData
 
+import threading
 
-EVENT_ID, MODE, BUY_QTY = parse_trading_args()
+runningEvents = []
 
-eventInfo = api_eventInfo( EVENT_ID )
+def main() :
 
-# This has : targetViews, targetTime, videoId
-targetTime, targetViews, videoId, videoTitle = extractInfoQuestion( eventInfo )
-
-print( f"Question - {videoTitle}, {targetTime}, {targetViews}" )
-
-decision = lastMinuteBuyStrat( targetTime, targetViews, videoId )
-
-if decision["isBuy"] :
+    events = api_getAllEvents( TOPIC_IDS["youtube"] )
     
-    api_buyEvent( eventId, decision["type"], decision["buyPrice"], qty=BUY_QTY )
+    for event in events:
+
+        eventId = event["id"]
+
+        if eventId not in runningEvents :
+            runningEvents.append( eventId )
+            print(f"Tasks : {runningEvents}")
+
+    for eventId in runningEvents:
+        thread = threading.Thread(target=processEventInThread, args=(eventId,))
+        thread.start()
+
+def processEventInThread(eventId):
+    collectEventData(eventId)
+
+if __name__ == "__main__":
+    main()

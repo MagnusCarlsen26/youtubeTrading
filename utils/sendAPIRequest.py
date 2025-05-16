@@ -17,7 +17,7 @@ def sendAPIRequest( url : str, method : Literal["GET","POST","PUT"], headers={},
     elif method == "PUT" : response = requests.put( url=url, headers=headers, json=payload )
 
     if response.status_code != 200 : 
-        raise Exception( f"Error from Probo : {response.json()["message"]}" ) 
+        raise Exception( f"Error from Probo : {response.json()} - Status: {response.status_code}" ) 
     else :
 
         response = response.json()
