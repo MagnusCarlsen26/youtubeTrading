@@ -8,7 +8,10 @@ import threading
 
 runningEvents = []
 
-def main() :
+
+def main( MAGIC_KEY : bool ) :
+
+    if not MAGIC_KEY : return 
 
     events = api_getAllEvents( TOPIC_IDS["youtube"] )
     
@@ -20,12 +23,17 @@ def main() :
             runningEvents.append( eventId )
             print(f"Tasks : {runningEvents}")
 
-    for eventId in runningEvents:
-        thread = threading.Thread(target=processEventInThread, args=(eventId,))
+    for i, eventId in enumerate( runningEvents ) :
+
+        magicKeyForThread = MAGIC_KEY if i == 0 else False
+        
+        thread = threading.Thread( target = processEventInThread, args=( eventId, magicKeyForThread, ) )
         thread.start()
 
-def processEventInThread(eventId):
-    collectEventData(eventId)
+def processEventInThread( eventId : int, MAGIC_KEY : bool ):
+    
+    collectEventData( eventId )
+    main( MAGIC_KEY )
 
 if __name__ == "__main__":
-    main()
+    main( MAGIC_KEY = True )
