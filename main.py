@@ -1,19 +1,23 @@
+import threading
+from typing import Literal
+
 from proboAPI.getAllEvents import api_getAllEvents
 
 from constants import TOPIC_IDS
 
 from collectEventData import collectEventData
 
-import threading
+
+from utils.args_parser import parse_trading_args
 
 runningEvents = []
 
+def main( MAGIC_KEY : bool, EVENT_CATEGORY : Literal["youtube", "bitcoin"] ) :
 
-def main( MAGIC_KEY : bool ) :
 
     if not MAGIC_KEY : return 
 
-    events = api_getAllEvents( TOPIC_IDS["youtube"] )
+    events = api_getAllEvents( TOPIC_IDS[ EVENT_CATEGORY ] )
     
     for event in events:
 
@@ -32,8 +36,9 @@ def main( MAGIC_KEY : bool ) :
 
 def processEventInThread( eventId : int, MAGIC_KEY : bool ):
     
-    collectEventData( eventId )
-    main( MAGIC_KEY )
+    collectEventData( eventId, EVENT_CATEGORY )
+    main( MAGIC_KEY, EVENT_CATEGORY )
 
 if __name__ == "__main__":
-    main( MAGIC_KEY = True )
+    EVENT_CATEGORY = parse_trading_args()
+    main( MAGIC_KEY = True, EVENT_CATEGORY = EVENT_CATEGORY )
