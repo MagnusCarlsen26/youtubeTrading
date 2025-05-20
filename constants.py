@@ -8,5 +8,6 @@ API_URLS = {
 }
 
 TOPIC_IDS = {
-    "youtube" : 452
+    "youtube" : 452,
+    "bitcoin" : 2449
 }

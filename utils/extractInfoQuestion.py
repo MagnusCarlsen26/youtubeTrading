@@ -1,5 +1,6 @@
 import json
 from json import JSONDecodeError
+import warnings
 
 from LLM.geminiAPI import geminiAPI
 from ytAPI.getTopSearch import search_top_video
@@ -25,6 +26,16 @@ Here is the question - {question}
 """
 
 def extractInfoQuestion( question : str ) -> dict  :
+    """
+    DEPRECATED: This function is deprecated and will be removed in a future version.
+    Please use the new API instead.
+    """
+    warnings.warn(
+        "extractInfoQuestion is deprecated and will be removed in a future version. "
+        "Please use the new API instead.",
+        DeprecationWarning,
+        stacklevel=2
+    )
 
     response = geminiAPI( PROMPT.format( question = question ) )
     
